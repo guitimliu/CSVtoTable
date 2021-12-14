@@ -15,8 +15,8 @@
                 <div class="filter">
                     <input type="text" placeholder="源 IP" id="SourceIP">
                     <label for="">日期</label>
-                    <input type="date" id="date_start"> to
-                    <input type="date" id="date_end">
+                    <input type="datetime-local" id="date_start"> to
+                    <input type="datetime-local" id="date_end">
                     <input type="text" placeholder="FQDN" id="FQDN">
                     <input type="submit" value="篩選" id="filterBtn">
                 </div>
@@ -40,6 +40,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="pageList"></div>
             </div>
         </div>
     </div>
@@ -51,12 +52,47 @@
     const submitBtn = document.querySelector('#submit');
     const list = document.querySelector('.list');
     const filter = document.querySelector('.filter');
+    let data;
     // console.log(filter);
     filter.addEventListener('click', (e) => {
+
         if (e.target.getAttribute('id') != 'filterBtn') {
             return;
         }
-        console.log(e.target);
+
+        let str = '';
+        const SourceIP = document.querySelector('#SourceIP');
+        const date_start = document.querySelector('#date_start');
+        const date_end = document.querySelector('#date_end');
+        const FQDN = document.querySelector('#FQDN');
+
+        let filterData = data.filter((item) => {
+            let start_if = new Date(date_start.value).getTime() <= new Date(item.created_at).getTime();
+            let end_if = new Date(date_end.value).getTime() >= new Date(item.created_at).getTime();
+
+            return item.SourceIP===SourceIP.value && item.FQDN === FQDN.value && start_if && end_if;
+        }).forEach((item) => {
+            // console.log(new Date(item.created_at).getTime());
+            str += `
+                <tr>
+                    <th scope="row">${item.id}</th>
+                    <td>${item.date}</td>
+                    <td>${item.created_at}</td>
+                    <td>${item.usec}</td>
+                    <td>${item.SourceIP}</td>
+                    <td>${item.SourcePort}</td>
+                    <td>${item.DestinationIP}</td>
+                    <td>${item.DestinationPort}</td>
+                    <td>${item.FQDN}</td>
+                </tr>
+            `;
+        })        
+        list.innerHTML = str;
+        // console.log(str);
+
+        // console.log(, );
+        
+        // console.log(new Date("2012/12/25 20:11:11").getTime());
     })
     let str = '';
     // console.log(list)
@@ -82,9 +118,11 @@
         })
     }
 
-    axios.get('http://localhost:8000/api/CSVtoTables')
+    showData();
+    function showData(page = 1, ifChangePage = false) {
+        axios.get(`http://localhost:8000/api/CSVtoTables?page=${page}`)
         .then((res) => {
-            let data = res.data.data.data;
+            data = res.data.data.data;
             console.log(data);
             data.forEach((item) => {
                 str += `
@@ -102,8 +140,25 @@
                 `;
             });
             list.innerHTML = str;
+            str = '';
+
+            if (ifChangePage) {
+                return;
+            }
+            
+            let lastPage = res.data.data.last_page;
+            const pageList = document.querySelector('.pageList');
+            // console.log(pageList);
+            str = '頁數：';
+            for (let i=1; i<=lastPage; i++) {
+                str += `<a href="javascript:void(0)" onClick="showData(${i}, ${true});">${i}</a>`;
+            }
+            pageList.innerHTML = str;
+            str = '';
         })
         .catch((err) => {
             console.log(err);
         })
+    }
+    
 </script>

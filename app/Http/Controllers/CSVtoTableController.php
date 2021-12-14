@@ -18,7 +18,7 @@ class CSVtoTableController extends Controller
     {
         $limit = $request->limit ?? 50;
 
-        $CSVtoTable = CSVtoTable::orderBy('id', 'desc')
+        $CSVtoTable = CSVtoTable::orderBy('created_at', 'asc')
             ->paginate($limit)
             ->appends($request->query());
         // $CSVtoTable = CSVtoTable::get();
