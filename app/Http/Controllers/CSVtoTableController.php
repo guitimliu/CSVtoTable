@@ -14,9 +14,15 @@ class CSVtoTableController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $limit = $request->limit ?? 50;
+
+        $CSVtoTable = CSVtoTable::orderBy('id', 'desc')
+            ->paginate($limit)
+            ->appends($request->query());
+        // $CSVtoTable = CSVtoTable::get();
+        return response(['data' => $CSVtoTable], Response::HTTP_OK);
     }
 
     /**
@@ -50,7 +56,7 @@ class CSVtoTableController extends Controller
      */
     public function show(CSVtoTable $cSVtoTable)
     {
-        //
+        return response($cSVtoTable, Response::HTTP_OK);
     }
 
     /**
