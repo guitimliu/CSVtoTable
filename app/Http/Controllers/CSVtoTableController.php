@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CSVtoTable;
+// use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CSVtoTableController extends Controller
 {
@@ -35,7 +37,9 @@ class CSVtoTableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $CSVtoTable = CSVtoTable::create($request->all());
+        $CSVtoTable = $CSVtoTable->refresh();
+        return response($CSVtoTable, Response::HTTP_CREATED);
     }
 
     /**

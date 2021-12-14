@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class CSVtoTable extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'date',
+        'usec',
+        'SourceIP',
+        'SourcePort',
+        'DestinationIP',
+        'DestinationPort',
+        'FQDN',
+    ];
 }
