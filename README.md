@@ -1,66 +1,39 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# CSV 轉 Table 工具
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+使用 PHP 框架 Laravel 打造 RESTful API 搭配 JavaScript + Axios 顯示資料與串接 API 進行實作，並使用 Jetstream 套件搭建會員系統
 
-## About Laravel
+## 操作流程
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 會員註冊與登入
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+進入首頁後，至右上角按下 Register 註冊
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+![image-20211215083915214](C:\Users\Gui\AppData\Roaming\Typora\typora-user-images\image-20211215083915214.png)
 
-## Learning Laravel
+填寫 Name、E-mail 以及密碼
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+![image-20211215084102623](C:\Users\Gui\AppData\Roaming\Typora\typora-user-images\image-20211215084102623.png)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+登入後進入 dashboard，如果有資料會呈現以下狀態
 
-## Laravel Sponsors
+![image-20211215084202201](C:\Users\Gui\AppData\Roaming\Typora\typora-user-images\image-20211215084202201.png)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### 篩選
 
-### Premium Partners
+使用篩選功能，可以篩選出符合條件的資訊
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
+![image-20211215084254432](C:\Users\Gui\AppData\Roaming\Typora\typora-user-images\image-20211215084254432.png)
 
-## Contributing
+### 分頁
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+由於目前本機測試資料設定 6 筆，所以此 Demo 我先設定成一頁僅顯示 2 筆（Demo 完後即改回 50 筆），即可透過分頁去顯示下 50 筆資料
 
-## Code of Conduct
+但這邊目前有個 Bug，篩選後的分頁數目前是不會變動的，這部分時間關係，目前就沒有進行修正；之後有機會再來進行修正
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+![image-20211215084509862](C:\Users\Gui\AppData\Roaming\Typora\typora-user-images\image-20211215084509862.png)
 
-## Security Vulnerabilities
+### 新增資料至資料表
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+很遺憾本系統最核心的 CSV 轉 Table 並沒有能夠在時間內實作出來，目前新增測試資料都是透過檔案 **recource/views/dashboard.build.php** 利用綁按鈕監聽事件後執行 function submit() ，並透過 Axios 將設定資料 POST 至 RESTful API（本來這部分要搭配 CSV 資料解析，不過沒成功實作出來）
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![image-20211215085121945](C:\Users\Gui\AppData\Roaming\Typora\typora-user-images\image-20211215085121945.png)
